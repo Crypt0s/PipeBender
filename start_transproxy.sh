@@ -6,15 +6,15 @@ for i in "$@"
 do
 case $i in
     -a=*|--address=*)
-    EXTENSION="${i#*=}"
+    ADDRESS="${i#*=}"
     shift # past argument=value
     ;;
     -g=*|--gateway=*)
-    SEARCHPATH="${i#*=}"
+    GATEWAY="${i#*=}"
     shift # past argument=value
     ;;
     -i=*|--interface=*)
-    LIBPATH="${i#*=}"
+    INTERFACE="${i#*=}"
     shift # past argument=value
     ;;
     *)
