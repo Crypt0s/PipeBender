@@ -1,31 +1,28 @@
 #!/bin/bash
 
-echo "Usage: ./start_transproxy.sh -a localaddress -g gateway -i interface";
+usage() { echo "Usage: $0 [-s <45|90>] [-p <string>]" 1>&2; exit 1; }
 
-for i in "$@"
-do
-case $i in
-    -a=*|--address=*)
-    ADDRESS="${i#*=}"
-    shift # past argument=value
-    ;;
-    -g=*|--gateway=*)
-    GATEWAY="${i#*=}"
-    shift # past argument=value
-    ;;
-    -i=*|--interface=*)
-    INTERFACE="${i#*=}"
-    shift # past argument=value
-    ;;
-    *)
-            # unknown option
-    ;;
-esac
+while getopts ":a:g:i:" o; do
+    case "${o}" in
+        g)
+            GATEWAY=${OPTARG}
+            ;;
+        i)
+            INTERFACE=${OPTARG}
+            ;;
+        a)
+            ADDRESS=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
 done
+
 # Networking nonsense
-ifconfig ${INTERFACE} ${ADDRESS} netmask 255.255.255.0
+ifconfig $INTERFACE $ADDRESS netmask 255.255.255.0
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
-route add default gw ${GATEWAY}
+route add default gw $GATEWAY
 iptables -F
 iptables -X
 iptables --table nat --flush
