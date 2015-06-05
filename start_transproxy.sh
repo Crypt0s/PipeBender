@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 [-s <45|90>] [-p <string>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -a [address of this host] -g [gateway for this host] -i [interface to modify]" 1>&2; exit 1; }
 
 while getopts ":a:g:i:" o; do
     case "${o}" in
